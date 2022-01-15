@@ -1,0 +1,294 @@
+﻿SQL*Plus: Release 11.2.0.2.0 Production on Thu Jul 11 15:47:32 2019
+
+Copyright (c) 1982, 2011, Oracle.  All rights reserved.
+
+Use "connect username/password@XE" to connect to the database.
+SQL> connect
+Enter user-name: te2b
+Enter password: 
+Connected.
+SQL> select * from dept
+  2  ;
+
+    DEPTNO DNAME	  LOC
+---------- -------------- -------------
+	10 ACCOUNTING	  NEW YORK
+	20 RESEARCH	  DALLAS
+	30 SALES	  CHICAGO
+	40 OPERATIONS	  BOSTON
+
+SQL> select * from emp
+  2  ;
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7839 KING       PRESIDENT 	   17-NOV-81		    5000
+		   10
+
+      7698 BLAKE      MANAGER	      7839 01-MAY-81		    2850
+		   30
+
+      7782 CLARK      MANAGER	      7839 09-JUN-81		    2450
+		   10
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7566 JONES      MANAGER	      7839 02-APR-81		    2975
+		   20
+
+      7788 SCOTT      ANALYST	      7566 09-DEC-82		    3000
+		   20
+
+      7902 FORD       ANALYST	      7566 03-DEC-81		    3000
+		   20
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7369 SMITH      CLERK	      7902 17-DEC-80		     800
+		   20
+
+      7499 ALLEN      SALESMAN	      7698 20-FEB-81		    1600
+       300	   30
+
+      7521 WARD       SALESMAN	      7698 22-FEB-81		    1250
+       500	   30
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7654 MARTIN     SALESMAN	      7698 28-SEP-81		    1250
+      1400	   30
+
+      7844 TURNER     SALESMAN	      7698 08-SEP-81		    1500
+	 0	   30
+
+      7876 ADAMS      CLERK	      7788 12-JAN-83		    1100
+		   20
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7900 JAMES      CLERK	      7698 03-DEC-81		     950
+		   30
+
+      7934 MILLER     CLERK	      7782 23-JAN-82		    1300
+		   10
+
+
+14 rows selected.
+
+SQL> desc emp
+ Name					   Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO					   NOT NULL NUMBER(4)
+ ENAME						    VARCHAR2(10)
+ JOB						    VARCHAR2(9)
+ MGR						    NUMBER(4)
+ HIREDATE					    DATE
+ SAL						    NUMBER(7,2)
+ COMM						    NUMBER(7,2)
+ DEPTNO 					    NUMBER(2)
+
+SQL> desc dept
+ Name					   Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTNO 				   NOT NULL NUMBER(2)
+ DNAME						    VARCHAR2(14)
+ LOC						    VARCHAR2(13)
+
+SQL> select * from emp where deptno=10
+  2  ;
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7839 KING       PRESIDENT 	   17-NOV-81		    5000
+		   10
+
+      7782 CLARK      MANAGER	      7839 09-JUN-81		    2450
+		   10
+
+      7934 MILLER     CLERK	      7782 23-JAN-82		    1300
+		   10
+
+
+
+
+SQL> select ENAME,SAL from emp where JOB='CLERK';
+
+ENAME		  SAL
+---------- ----------
+SMITH		  800
+ADAMS		 1100
+JAMES		  950
+MILLER		 1300
+
+SQL> select ENAME,JOB,SAL from emp where HIREDATE='17-DEC-1980';
+
+ENAME	   JOB		    SAL
+---------- --------- ----------
+SMITH	   CLERK	    800
+
+SQL> select DNAME,DEPTNO from dept where DEPTNO>20;
+
+DNAME		   DEPTNO
+-------------- ----------
+SALES		       30
+OPERATIONS	       40
+
+SQL> select ENAME,SAL from emp where SAL between 1000 and 2000 ;
+
+ENAME		  SAL
+---------- ----------
+ALLEN		 1600
+WARD		 1250
+MARTIN		 1250
+TURNER		 1500
+ADAMS		 1100
+MILLER		 1300
+
+6 rows selected.
+
+SQL> select ENAME,SAL,SAL/240 from emp
+  2  ;
+
+ENAME		  SAL	 SAL/240
+---------- ---------- ----------
+KING		 5000 20.8333333
+BLAKE		 2850	  11.875
+CLARK		 2450 10.2083333
+JONES		 2975 12.3958333
+SCOTT		 3000	    12.5
+FORD		 3000	    12.5
+SMITH		  800 3.33333333
+ALLEN		 1600 6.66666667
+WARD		 1250 5.20833333
+MARTIN		 1250 5.20833333
+TURNER		 1500	    6.25
+
+ENAME		  SAL	 SAL/240
+---------- ---------- ----------
+ADAMS		 1100 4.58333333
+JAMES		  950 3.95833333
+MILLER		 1300 5.41666667
+
+14 rows selected.
+
+SQL> select ENAME,SAL,SAL/240 as HRSAL from emp;
+
+ENAME		  SAL	   HRSAL
+---------- ---------- ----------
+KING		 5000 20.8333333
+BLAKE		 2850	  11.875
+CLARK		 2450 10.2083333
+JONES		 2975 12.3958333
+SCOTT		 3000	    12.5
+FORD		 3000	    12.5
+SMITH		  800 3.33333333
+ALLEN		 1600 6.66666667
+WARD		 1250 5.20833333
+MARTIN		 1250 5.20833333
+TURNER		 1500	    6.25
+
+ENAME		  SAL	   HRSAL
+---------- ---------- ----------
+ADAMS		 1100 4.58333333
+JAMES		  950 3.95833333
+MILLER		 1300 5.41666667
+
+14 rows selected.
+
+SQL> select ENAME from emp where ENAME like '%TH%' or ENAME like '%LL%';
+
+ENAME
+----------
+SMITH
+ALLEN
+MILLER
+
+SQL> select ENAME from emp where ENAME not like '%S';
+ENAME
+----------
+KING
+BLAKE
+CLARK
+SCOTT
+FORD
+SMITH
+ALLEN
+WARD
+MARTIN
+TURNER
+MILLER
+
+11 rows selected.
+
+SQL> select * from emp where deptno=20 or deptno=30 or deptno=40;
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7698 BLAKE      MANAGER	      7839 01-MAY-81		    2850
+		   30
+
+      7566 JONES      MANAGER	      7839 02-APR-81		    2975
+		   20
+
+      7788 SCOTT      ANALYST	      7566 09-DEC-82		    3000
+		   20
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7902 FORD       ANALYST	      7566 03-DEC-81		    3000
+		   20
+
+      7369 SMITH      CLERK	      7902 17-DEC-80		     800
+		   20
+
+      7499 ALLEN      SALESMAN	      7698 20-FEB-81		    1600
+       300	   30
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7521 WARD       SALESMAN	      7698 22-FEB-81		    1250
+       500	   30
+
+      7654 MARTIN     SALESMAN	      7698 28-SEP-81		    1250
+      1400	   30
+
+      7844 TURNER     SALESMAN	      7698 08-SEP-81		    1500
+	 0	   30
+
+
+     EMPNO ENAME      JOB	       MGR HIREDATE		     SAL
+---------- ---------- --------- ---------- ------------------ ----------
+      COMM     DEPTNO
+---------- ----------
+      7876 ADAMS      CLERK	      7788 12-JAN-83		    1100
+		   20
+
+      7900 JAMES      CLERK	      7698 03-DEC-81		     950
+		   30
+
+
+11 rows selected.

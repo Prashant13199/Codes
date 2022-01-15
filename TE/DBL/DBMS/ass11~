@@ -1,0 +1,131 @@
+#Aggrgation
+> use library
+switched to db library
+> db.createCollection("lib");
+{ "ok" : 1 }
+> db.lib.insert({bname:'DBMS',title:'aggregation',author:'K.M.James',followers:50,likes:40});
+WriteResult({ "nInserted" : 1 })
+> db.lib.insert({bname:'CN',title:'OSI',author:'J.K.Smith',followers:70,likes:60});
+WriteResult({ "nInserted" : 1 })
+> db.lib.insert({bname:'TOC',title:'Turing Machine',author:'S.K.John',followers:90,likes:80});
+WriteResult({ "nInserted" : 1 })
+> db.lib.insert({bname:'ISEE',title:'Economics',author:'R.M.King',followers:90,likes:100});
+WriteResult({ "nInserted" : 1 })
+> db.lib.insert({bname:'SEPM',title:'Projrct M',author:'R.M.Root',followers:60,likes:100});
+WriteResult({ "nInserted" : 1 })
+> db.lib.insert({bname:'CG',title:'graphics',author:'R.M.Root',followers:80,likes:100});
+WriteResult({ "nInserted" : 1 })
+> db.lib.insert({bname:'MP',title:'Microprocessor',author:'K.M.James',followers:80,likes:70});
+WriteResult({ "nInserted" : 1 })
+
+
+> db.lib.find().pretty();
+{
+	"_id" : ObjectId("5d8ace465c9c7a5db03a2f8a"),
+	"bname" : "DBMS",
+	"title" : "aggregation",
+	"author" : "K.M.James",
+	"followers" : 50,
+	"likes" : 40
+}
+{
+	"_id" : ObjectId("5d8ace7a5c9c7a5db03a2f8b"),
+	"bname" : "CN",
+	"title" : "OSI",
+	"author" : "J.K.Smith",
+	"followers" : 70,
+	"likes" : 60
+}
+{
+	"_id" : ObjectId("5d8acebb5c9c7a5db03a2f8c"),
+	"bname" : "TOC",
+	"title" : "Turing Machine",
+	"author" : "S.K.John",
+	"followers" : 90,
+	"likes" : 80
+}
+{
+	"_id" : ObjectId("5d8acef55c9c7a5db03a2f8d"),
+	"bname" : "ISEE",
+	"title" : "Economics",
+	"author" : "R.M.King",
+	"followers" : 90,
+	"likes" : 100
+}
+{
+	"_id" : ObjectId("5d8acf1b5c9c7a5db03a2f8e"),
+	"bname" : "SEPM",
+	"title" : "Projrct M",
+	"author" : "R.M.Root",
+	"followers" : 60,
+	"likes" : 100
+}
+{
+	"_id" : ObjectId("5d8ad1005c9c7a5db03a2f8f"),
+	"bname" : "CG",
+	"title" : "graphics",
+	"author" : "R.M.Root",
+	"followers" : 80,
+	"likes" : 100
+}
+{
+	"_id" : ObjectId("5d8ad6f45c9c7a5db03a2f90"),
+	"bname" : "MP",
+	"title" : "Microprocessor",
+	"author" : "K.M.James",
+	"followers" : 80,
+	"likes" : 70
+}
+
+ 
+
+> db.lib.aggregate([{$group:{_id:0,likes:{$avg:"$likes"}}}]);
+{ "_id" : 0, "likes" : 76 }
+
+> db.lib.aggregate([{$group:{_id:0,first_url:{$first:"$bname"}}}]);
+{ "_id" : 0, "first_url" : "DBMS" }
+
+> db.lib.aggregate([{$group:{_id:0,last_url:{$last:"$bname"}}}]);
+{ "_id" : 0, "last_url" : "MP" }
+
+
+> db.lib.aggregate([{$group:{_id:0,likes:{$min:"$likes"}}}]);
+{ "_id" : 0, "likes" : 40 }
+
+> db.lib.aggregate([{$group:{_id:0,likes:{$max:"$likes"}}}]);
+{ "_id" : 0, "likes" : 100 }
+ 
+ 
+> db.lib.aggregate([{$match:{"author":"R.M.Root"}},{$group:{_id:0,author:{$sum:1}}}]);
+{ "_id" : 0, "author" : 2 }
+
+ 
+> db.lib.aggregate([{$match:{"author":"K.M.James"}},{$group:{_id:0,likes:{$avg:"$likes"}}}]);
+{ "_id" : 0, "likes" : 55 }
+
+
+> db.lib.aggregate([{$match:{"author":"R.M.Root"}},{$group:{_id:0,total:{$sum:"$likes"}}}]);
+{ "_id" : 0, "total" : 200 }
+
+
+> db.lib.aggregate([{$match:{"author":"K.M.James"}},{$group:{_id:0,total:{$sum:"$followers"}}}]);
+{ "_id" : 0, "total" : 130 }
+
+
+> db.lib.createIndex({"bname":1},{unique:true})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+
+> db.lib.insert({bname:'ISEE',title:'IS',author:'L.K.Rock',followers:70,likes:60});
+WriteResult({
+	"nInserted" : 0,
+	"writeError" : {
+		"code" : 11000,
+		"errmsg" : "E11000 duplicate key error collection: library.lib index: bname_1 dup key: { : \"ISEE\" }"
+	}
+})
+

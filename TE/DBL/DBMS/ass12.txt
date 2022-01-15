@@ -1,0 +1,42 @@
+
+> db.mr.find();
+{ "_id" : ObjectId("5d9c2ec662dda7f6aa374da4"), "roll" : 1, "name" : "King", "DBMS" : 20, "CN" : 24, "SEPM" : 23, "ISEE" : 25, "TOC" : 20 }
+{ "_id" : ObjectId("5d9c2ee062dda7f6aa374da5"), "roll" : 2, "name" : "Martin", "DBMS" : 25, "CN" : 23, "SEPM" : 22, "ISEE" : 21, "TOC" : 19 }
+{ "_id" : ObjectId("5d9c2ef562dda7f6aa374da6"), "roll" : 3, "name" : "John", "DBMS" : 20, "CN" : 19, "SEPM" : 22, "ISEE" : 21, "TOC" : 13 }
+{ "_id" : ObjectId("5d9c2f0d62dda7f6aa374da7"), "roll" : 4, "name" : "James", "DBMS" : 27, "CN" : 24, "SEPM" : 25, "ISEE" : 20, "TOC" : 25 }
+{ "_id" : ObjectId("5d9c2f2162dda7f6aa374da8"), "roll" : 5, "name" : "Rock", "DBMS" : 29, "CN" : 24, "SEPM" : 24, "ISEE" : 25, "TOC" : 25 }
+{ "_id" : ObjectId("5d9c30c662dda7f6aa374dac"), "roll" : 6, "name" : "James", "DBMS" : 19, "CN" : 20, "SEPM" : 20, "ISEE" : 21, "TOC" : 12 }
+
+
+> db.mr.mapReduce( function(){emit(this.DBMS,1);}, function(key,values){return Array.sum(values)},{ query:{DBMS:{$gt:20}}, out:"result" } ).find();
+{ "_id" : 25, "value" : 1 }
+{ "_id" : 27, "value" : 1 }
+{ "_id" : 29, "value" : 1 }
+
+> db.mr.mapReduce( function(){emit(this.TOC,1);}, function(key,values){return Array.sum(values)},{ query:{TOC:{$gt:20}}, out:"result" } ).find();
+{ "_id" : 25, "value" : 2 }
+
+> db.mr.mapReduce( function(){emit(this.TOC,1);}, function(key,values){return Array.sum(values)},{ query:{TOC:{$lt:20}}, out:"result" } ).find();
+{ "_id" : 12, "value" : 1 }
+{ "_id" : 13, "value" : 1 }
+{ "_id" : 19, "value" : 1 }
+
+> db.mr.mapReduce( function(){emit(this.TOC,1);}, function(key,values){return Array.avg(values)},{out:"result" } ).find();
+{ "_id" : 12, "value" : 1 }
+{ "_id" : 13, "value" : 1 }
+{ "_id" : 19, "value" : 1 }
+{ "_id" : 20, "value" : 1 }
+{ "_id" : 25, "value" : 1 }
+
+> db.mr.mapReduce( function(){emit(this.CN,1);}, function(key,values){return Array.avg(values)},{out:"result" } ).find();
+{ "_id" : 19, "value" : 1 }
+{ "_id" : 20, "value" : 1 }
+{ "_id" : 23, "value" : 1 }
+{ "_id" : 24, "value" : 1 }
+
+
+
+
+> db.mr.mapReduce( function(){emit(this.SEPM,1);}, function(key,values){return Array.avg(values)},{query:{name:'James'},out:"result" } ).find();
+{ "_id" : 20, "value" : 1 }
+{ "_id" : 25, "value" : 1 }

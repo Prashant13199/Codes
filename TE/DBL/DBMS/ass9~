@@ -1,0 +1,90 @@
+								**** CRUD Operations *****
+
+db.fb.insert({name:'sarvesh',likes:50,posts:100,views:80})
+WriteResult({ "nInserted" : 1 })
+> db.fb.insert({name:'shubham',likes:60,posts:120,views:90})
+WriteResult({ "nInserted" : 1 })
+> db.fb.insert({name:'kunal',likes:40,posts:90,views:60})
+WriteResult({ "nInserted" : 1 })
+> db.fb.save({name:'yash',likes:70,posts:150,views:100})
+WriteResult({ "nInserted" : 1 })
+> db.fb.save({name:'atharva',likes:137,posts:200,views:150})
+WriteResult({ "nInserted" : 1 })
+> db.fb.save({name:'abhijeet',likes:110,posts:78,views:124})
+WriteResult({ "nInserted" : 1 })
+> db.fb.find().pretty()
+{
+	"_id" : ObjectId("5d819d99775559a1cf55ad0f"),
+	"name" : "sarvesh",
+	"likes" : 50,
+	"posts" : 100,
+	"views" : 80
+}
+{
+	"_id" : ObjectId("5d819db2775559a1cf55ad10"),
+	"name" : "shubham",
+	"likes" : 60,
+	"posts" : 120,
+	"views" : 90
+}
+{
+	"_id" : ObjectId("5d819dc5775559a1cf55ad11"),
+	"name" : "kunal",
+	"likes" : 40,
+	"posts" : 90,
+	"views" : 60
+}
+{
+	"_id" : ObjectId("5d819deb775559a1cf55ad12"),
+	"name" : "yash",
+	"likes" : 70,
+	"posts" : 150,
+	"views" : 100
+}
+{
+	"_id" : ObjectId("5d819e0a775559a1cf55ad13"),
+	"name" : "atharva",
+	"likes" : 137,
+	"posts" : 200,
+	"views" : 150
+}
+{
+	"_id" : ObjectId("5d819e3d775559a1cf55ad14"),
+	"name" : "abhijeet",
+	"likes" : 110,
+	"posts" : 78,
+	"views" : 124
+}
+
+> db.fb.find({"likes":{$gt:100}}).pretty()
+{
+	"_id" : ObjectId("5d819e0a775559a1cf55ad13"),
+	"name" : "atharva",
+	"likes" : 137,
+	"posts" : 200,
+	"views" : 150
+}
+{
+	"_id" : ObjectId("5d819e3d775559a1cf55ad14"),
+	"name" : "abhijeet",
+	"likes" : 110,
+	"posts" : 78,
+	"views" : 124
+}
+
+> db.fb.find({"name":"sarvesh"}).pretty()
+{
+	"_id" : ObjectId("5d819d99775559a1cf55ad0f"),
+	"name" : "sarvesh",
+	"likes" : 50,
+	"posts" : 100,
+	"views" : 80
+}
+> db.fb.find({"name":"atharva"}).pretty()
+{
+	"_id" : ObjectId("5d819e0a775559a1cf55ad13"),
+	"name" : "atharva",
+	"likes" : 137,
+	"posts" : 200,
+	"views" : 150
+

@@ -1,0 +1,305 @@
+ select emp_no,ename,job,hiredate from emp where dept_no=10;
+
+    EMP_NO ENAME      JOB	HIREDATE
+---------- ---------- --------- ------------------
+      7782 clark      manager	09-JUL-81
+      7839 king       president 17-NOV-81
+      7934 miller     clerk	23-JAN-82
+
+SQL> select ename,sal from emp where job='clerk';
+
+ENAME		  SAL
+---------- ----------
+smith		  800
+adams		 1100
+james		  950
+miller		 1300
+
+SQL> select ename,job,sal from emp where hiredate='17-dec-1980';
+
+ENAME	   JOB		    SAL
+---------- --------- ----------
+smith	   clerk	    800
+
+SQL> select ename,sal from emp;
+
+ENAME		  SAL
+---------- ----------
+smith		  800
+allen		 1600
+ward		 1250
+jones		 2975
+martin		 1250
+blake		 2850
+clark		 2450
+scott		 3000
+king		 5000
+turner		 1500
+adams		 1100
+
+ENAME		  SAL
+---------- ----------
+james		  950
+ford		 3000
+miller		 1300
+
+14 rows selected.
+
+SQL> select dname,dept_no from dept where dept_no>20;
+
+DNAME		  DEPT_NO
+-------------- ----------
+sales		       30
+operations	       40
+
+SQL> select sal from emp where sal between 1000 and 2000;
+
+       SAL
+----------
+      1600
+      1250
+      1250
+      1500
+      1100
+      1300
+
+6 rows selected.
+
+SQL> select ename,sal,comm from emp where comm>sal;
+
+ENAME		  SAL	    COMM
+---------- ---------- ----------
+martin		 1250	    1400
+
+
+
+SQL> select ename,emp_no from emp where sal>2600 and job='manager' ORDER BY ename asc;
+
+ENAME	       EMP_NO
+---------- ----------
+blake		 7698
+jones		 7566
+
+SQL> select ename,sal as monthly,sal/22 as daily,sal/22/8 as hourly from emp;
+
+ENAME	      MONTHLY	   DAILY     HOURLY
+---------- ---------- ---------- ----------
+smith		  800 36.3636364 4.54545455
+allen		 1600 72.7272727 9.09090909
+ward		 1250 56.8181818 7.10227273
+jones		 2975 135.227273 16.9034091
+martin		 1250 56.8181818 7.10227273
+blake		 2850 129.545455 16.1931818
+clark		 2450 111.363636 13.9204545
+scott		 3000 136.363636 17.0454545
+king		 5000 227.272727 28.4090909
+turner		 1500 68.1818182 8.52272727
+adams		 1100	      50       6.25
+
+ENAME	      MONTHLY	   DAILY     HOURLY
+---------- ---------- ---------- ----------
+james		  950 43.1818182 5.39772727
+ford		 3000 136.363636 17.0454545
+miller		 1300 59.0909091 7.38636364
+
+14 rows selected.
+
+SQL> select ename from emp where ename like '%th%' or ename like '%ll%';
+
+ENAME
+----------
+smith
+allen
+miller
+
+SQL> select ename from emp where ename not like '%s';
+
+ENAME
+----------
+smith
+allen
+ward
+martin
+blake
+clark
+scott
+king
+turner
+ford
+miller
+
+11 rows selected.
+
+SQL> select ename from emp where ename like 'c%';
+
+ENAME
+----------
+clark
+
+SQL> select ename from empl where ename like 't%' and  ename like '%r';   
+
+ENAME
+----------
+turner
+
+SQL> select ename,job from empl where sal>1500 and job='manager' or job='salesman';
+
+ENAME	   JOB
+---------- ---------
+allen	   salesman
+ward	   salesman
+jones	   manager
+martin	   salesman
+turner	   salesman
+blake	   manager
+clark	   manager
+
+7 rows selected.
+
+SQL> select * from empl where To_char(hiredate,'YYYY') between 1982 and 1984;
+
+    EMP_NO ENAME      JOB	       MGR HIREDATE	   SAL	     COMM
+---------- ---------- --------- ---------- -------- ---------- ----------
+   DEPT_NO
+----------
+      7934 miller     clerk	      7782 23-01-82	  1300
+	10
+
+SQL> select length(ename) from empl;
+
+LENGTH(ENAME)
+-------------
+	    5
+	    5
+	    4
+	    5
+	    6
+	    6
+	    5
+	    5
+	    5
+	    4
+	    5
+
+LENGTH(ENAME)
+-------------
+	    5
+	    4
+	    6
+
+14 rows selected.
+
+SQL> select distinct length(ename) from empl;
+
+LENGTH(ENAME)
+-------------
+	    6
+	    5
+	    4
+
+SQL> select dept_no,ename,hiredate from empl where dept_no=20;
+
+   DEPT_NO ENAME      HIREDATE
+---------- ---------- --------
+	20 smith      17-12-80
+	20 jones      02-04-81
+	20 martin     28-09-81
+	20 turner     08-09-81
+	20 scott      19-04-87
+	20 adams      23-05-87
+	20 ford       03-12-81
+
+7 rows selected.
+
+SQL>  select ename from empl where to_char(hiredate,'mm')=12;
+
+ENAME
+----------
+smith
+james
+ford
+
+
+SQL> select avg(sal),dept_no from empl group by dept_no;
+
+  AVG(SAL)    DEPT_NO
+---------- ----------
+    1662.5	   30
+1946.42857	   20
+2916.66667	   10
+
+
+SQL> select count(ename) from empl where dept_no=30;
+
+COUNT(ENAME)
+------------
+	   4
+
+
+SQL> select max(sal),min(sal),avg(sal),job from empl group by job having job='clerk' or job='manager';
+
+  MAX(SAL)   MIN(SAL)	AVG(SAL) JOB
+---------- ---------- ---------- ---------
+      1300	  800	  1037.5 clerk
+      2975	 2450 2758.33333 manager
+
+
+SQL> select count(ename),sum(sal) from empl group by dept_no;
+
+COUNT(ENAME)   SUM(SAL)
+------------ ----------
+	   4	   6650
+	   7	  13625
+	   3	   8750
+
+SQL>  create or replace view sar as select emp_no,ename,job,sal,dname,loc from empl e,dep d where e.dept_no=d.dept_no;
+
+View created.
+
+SQL> select * from sar;
+
+    EMP_NO ENAME      JOB	       SAL DNAME	  LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7839 king       president       5000 accounting	  newyork
+      7782 clark      manager	      2450 accounting	  newyork
+      7934 miller     clerk	      1300 accounting	  newyork
+      7566 jones      manager	      2975 research	  dallas
+      7884 turner     salesman	      1500 research	  dallas
+      7788 scott      analyst	      3000 research	  dallas
+      7876 adams      clerk	      1100 research	  dallas
+      7369 smith      clerk	       800 research	  dallas
+      7902 ford       analyst	      3000 research	  dallas
+      7654 martin     salesman	      1250 research	  dallas
+      7900 james      clerk	       950 sales	  chicago
+
+    EMP_NO ENAME      JOB	       SAL DNAME	  LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7521 ward       salesman	      1250 sales	  chicago
+      7499 allen      salesman	      1600 sales	  chicago
+      7698 blake      manager	      2850 sales	  chicago
+
+14 rows selected.
+
+
+SQL>  select emp_no,ename from empl inner join dep on empl.dept_no=dep.dept_no and loc='newyork';
+
+    EMP_NO ENAME
+---------- ----------
+      7839 king
+      7782 clark
+      7934 miller
+
+SQL> select count(ename) from empl inner join dep on empl.dept_no=dep.dept_no and loc='newyork';
+
+COUNT(ENAME)
+------------
+	   3
+
+SQL> select job from empl where sal>=3000;
+
+JOB
+---------
+analyst
+president
+analyst
+

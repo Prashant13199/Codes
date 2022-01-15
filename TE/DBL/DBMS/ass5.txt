@@ -1,0 +1,114 @@
+create table borrower(rollno number(5),name varchar2(20),issuedate date,bookname varchar2(20),status char);
+create table fine(rollno number(5),rdate date,amount number(5));
+select * from borrower;
+select * from fine;
+insert into borrower(rollno,name,issuedate,bookname,status) values(56,'Stark','27-JUN-2019','TOC','I');
+
+create procedure libr(roll IN number, book IN varchar2)
+IS
+ idate date;
+ fineamt number(5);
+ days number(3);
+ bname varchar2(20);
+ 
+ BEGIN
+  select issuedate into idate from borrower where rollno=roll and bookname=book;
+  select name into bname from borrower where rollno=roll and bookname=book;
+  dbms_output.put_line('Issue date is : '||idate);
+  dbms_output.put_line('Name of borrower is : '||bname);
+  select trunc(sysdate-idate)into days from dual;
+  if days>=15 and days<=30 then
+   fineamt:=(days-15)*5;
+   dbms_output.put_line('Fine amount is : '||fineamt);
+  elsif days>30 then
+   fineamt:=(days-30)*50;
+   dbms_output.put_line('Fine amount is : '||fineamt);
+  end if;
+  UPDATE borrower set status='R' where rollno=roll and bookname=book;
+  if fineamt>0 then
+   insert into fine(rollno,rdate,amount)values(roll,sysdate,fineamt);
+  end if;
+ exception
+  when no_data_found then
+  dbms_output.put_line('NO DATA FOUND');
+  when others then
+  dbms_output.put_line('EXCEPTION OCCUR');
+END;
+/
+
+
+
+***output*****;
+SQL> select * from borrower;
+
+    ROLLNO NAME 		ISSUEDAT BOOKNAME	      S
+---------- -------------------- -------- -------------------- -
+	38 Wood 		01-08-19 ISEE		      I
+	 4 Jones		04-07-19 DBMS		      I
+	23 Warner		09-07-19 CN		      	  I
+	45 Root 		29-07-19 SEPM		      I
+	33 Maxwell		12-06-19 SEPM		      I
+	16 Stokes		01-06-19 TOC		      I
+	56 Stark		27-06-19 TOC		      I
+
+SQL> exec libr(16,'TOC');
+Issue date is : 01-06-19
+Name of borrower is : Stokes
+Fine amount is : 1600
+
+SQL> exec libr(33,'SEPM');
+Issue date is : 12-06-19
+Name of borrower is : Maxwell
+Fine amount is : 1050
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from fine;
+
+    ROLLNO RDATE	AMOUNT
+---------- -------- ----------
+	16 02-08-19	  1600
+	33 02-08-19	  1050
+
+SQL> exec libr(5,'CN');
+NO DATA FOUND
+
+PL/SQL procedure successfully completed.
+
+SQL> exec libr(23,'CN');           
+Issue date is : 09-07-19
+Name of borrower is : Warner
+Fine amount is : 45
+
+PL/SQL procedure successfully completed.
+
+SQL> exec libr(56,'TOC');
+Issue date is : 27-06-19
+Name of borrower is : Stark
+Fine amount is : 300
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from fine;
+
+    ROLLNO RDATE	AMOUNT
+---------- -------- ----------
+	16 02-08-19	  1600
+	33 02-08-19	  1050
+	23 02-08-19	    45
+	56 02-08-19	   300
+
+SQL> select * from borrower;
+
+    ROLLNO NAME 		ISSUEDAT BOOKNAME	      S
+---------- -------------------- -------- -------------------- -
+	38 Wood 		01-08-19 ISEE		      I
+	 4 Jones		04-07-19 DBMS		      I
+	23 Warner		09-07-19 CN		      	  R
+	45 Root 		29-07-19 SEPM		      I
+	33 Maxwell		12-06-19 SEPM		      R
+	16 Stokes		01-06-19 TOC		      R
+	56 Stark		27-06-19 TOC		      R
+
+7 rows selected.
+

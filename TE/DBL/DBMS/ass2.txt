@@ -1,0 +1,64 @@
+SQL> create table data(category_id char(3),category char(20) UNIQUE,description varchar(100),PRIMARY KEY(category_id));                  
+
+Table created.
+
+SQL> desc data
+ Name					   Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CATEGORY_ID				   NOT NULL CHAR(3)
+ CATEGORY					    CHAR(20)
+ DESCRIPTION					    VARCHAR2(100)
+
+SQL> create table data1(brand_id char(3),brand_name varchar(20),PRIMARY KEY(brand_id));
+
+Table created.
+
+SQL> desc data1
+ Name					   Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BRAND_ID				   NOT NULL CHAR(3)
+ BRAND_NAME					    VARCHAR2(20)
+
+SQL> alter table data1 modify(Brand_name varchar2(20) UNIQUE);
+
+Table altered.
+
+SQL> create table data2(toy_id char(3) PRIMARY KEY,toy_name varchar(20),toy_rate number(5,2),category_id char(3),brand_id char(3),toy_qoh number(5),lower_age number(4),upper_age number(5),toy_weight number(2));
+
+Table created.
+
+SQL> desc data2
+ Name					   Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TOY_ID 					    CHAR(3)
+ TOY_NAME					    VARCHAR2(20)
+ TOY_RATE					    NUMBER(5,2)
+ CATEGORY_ID				    CHAR(3)
+ BRAND_ID					    CHAR(3)
+ TOY_QOH					    NUMBER(5)
+ LOWER_AGE				    NUMBER(4)
+ UPPER_AGE				    NUMBER(5)
+ TOY_WEIGHT			       	    NUMBER(2)
+
+SQL> alter table data2 modify(check(toy_Qoh>0 and toy_Qoh<200));
+
+Table altered.
+
+SQL>  alter table data2 modify(lower_age number(5) default 1);    
+
+Table altered.
+
+SQL> alter table data2 modify(upper_age number(5) default 1);
+
+Table altered.
+
+SQL> alter table data2 add(check(toy_rate>0));
+
+Table altered.
+
+SQL>  alter table data2 modify(toy_weight number(2) default 1);
+
+Table altered.
+
+ 
+

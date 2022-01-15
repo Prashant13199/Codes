@@ -1,0 +1,71 @@
+create table library(book_no number(5),book_name varchar2(20),issuedate date,author varchar2(20));
+create table lib_audit(book_no number(5),author varchar2(20),issuedate date,newdate date);
+
+SQL> select * from lib_audit;
+
+no rows selected
+
+create or replace trigger lib
+before update or delete on library
+for each row
+ begin
+  insert into lib_audit(book_no,author,issuedate,newdate)values(:new.book_no,:new.author,:old.issuedate,:new.issuedate); 
+ end;
+/
+
+SQL> select * from library;
+
+   BOOK_NO BOOK_NAME		ISSUEDAT AUTHOR
+---------- -------------------- -------- --------------------
+	 4 TOC			07-06-19 G.H.ALLEN
+	 2 DBMS 		07-05-19 S.K.SMITH
+	45 CN			19-07-19 S.S.WOOD
+	23 ISEE 		31-07-19 L.K.JAMES
+	53 SEPM 		06-07-19 D.F.JONES
+
+
+SQL> update library set issuedate='1-08-2019' where book_no=23;
+
+1 row updated.
+
+SQL> select * from lib_audit;
+
+   BOOK_NO AUTHOR		ISSUEDAT NEWDATE
+---------- -------------------- -------- --------
+	23 L.K.JAMES		31-07-19 01-08-19
+
+SQL> select * from library;
+
+   BOOK_NO BOOK_NAME		ISSUEDAT AUTHOR
+---------- -------------------- -------- --------------------
+	 4 TOC			07-06-19 G.H.ALLEN
+	 2 DBMS 		07-05-19 S.K.SMITH
+	45 CN			19-07-19 S.S.WOOD
+	23 ISEE 		01-08-19 L.K.JAMES
+	53 SEPM 		06-07-19 D.F.JONES
+
+SQL> update library set author='C.N.WARD' where book_no=53;
+
+1 row updated.
+
+SQL> select * from lib_audit;
+
+   BOOK_NO AUTHOR		ISSUEDAT NEWDATE
+---------- -------------------- -------- --------
+	23 L.K.JAMES		31-07-19 01-08-19
+	53 C.N.WARD		    06-07-19 06-07-19
+
+SQL> delete from library where book_no=2;
+
+1 row deleted.
+
+SQL> select * from lib_audit;
+
+   BOOK_NO AUTHOR		ISSUEDAT NEWDATE
+---------- -------------------- -------- --------
+	23 L.K.JAMES		31-07-19 01-08-19
+	53 C.N.WARD			06-07-19 06-07-19
+						07-05-19
+
+ 
+

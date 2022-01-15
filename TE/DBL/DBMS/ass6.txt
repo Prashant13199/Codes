@@ -1,0 +1,57 @@
+								**** Cursor ****
+
+
+create table student(rollno number(5),name varchar2(20),marks number(5));
+create table newstud(rollno number(5),name varchar2(20),marks number(5));
+select * from student;
+select * from newstud;
+insert into newstud(rollno,name,marks) values(7,'Miller',50);
+
+SQL> select * from student;
+
+    ROLLNO NAME 		     MARKS
+---------- -------------------- ----------
+	 9 King 			80
+	10 Allen			70
+	 8 Blake			67
+	 5 Turner			82
+
+SQL> select * from newstud;
+
+    ROLLNO NAME 		     MARKS
+---------- -------------------- ----------
+	 6 Ward 			90
+	 7 Miller			50
+	 9 King 			80
+	10 Allen			70
+	 8 Blake			67
+	 5 Turner			82
+
+6 rows selected.
+
+SQL> declare
+ cursor old_c is select * from student;
+ cursor new_c(newroll number)is select * from newstud where rollno=newroll;
+ newrec newstud%rowtype;
+ 
+ BEGIN
+  for studrec in old_c
+  LOOP
+  open new_c(studrec.rollno);
+  fetch new_c into newrec;
+  if new_c%NOTFOUND then
+   insert into newstud(rollno,name,marks) values(studrec.rollno,studrec.name,studrec.marks);
+  end if;
+ close new_c;
+ end LOOP;
+END;
+/
+
+SQL> select * from newstud;
+
+    ROLLNO NAME 		     MARKS
+---------- -------------------- ----------
+	 9 King 			80
+	10 Allen			70
+	 8 Blake			67
+	 5 Turner			82

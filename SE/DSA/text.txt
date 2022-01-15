@@ -1,0 +1,273 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+     
+class stud{
+
+		private :
+		
+		int size,size2;
+		
+		
+		public :
+
+              struct SE{
+              
+                char prn[30];
+                int  date,month;
+                  };
+                  
+             SE s1[10],s2[10];
+                
+                void input()
+                {int i;
+                              
+                cout<<"\nEnter size of se1 class : ";
+                cin>>size;
+                
+                for(i=0;i<size;i++)
+                {
+                cout<<endl;
+                
+                cout<<"Enter PRN :"; 			cin>>s1[i].prn;
+                cout<<"Enter DATE of birth : ";  	cin>>s1[i].date;
+                cout<<"Enter month of birth : ";	cin>>s1[i].month;
+                }
+                
+                }
+                
+                void input2()
+                {int i;
+                              
+                cout<<"\nEnter size oof se2 class: ";
+                cin>>size2;
+                
+                for(i=0;i<size2;i++)
+                {
+                cout<<endl;
+                
+                cout<<"Enter PRN :"; 			cin>>s2[i].prn;
+                cout<<"Enter DATE of birth : ";  	cin>>s2[i].date;
+                cout<<"Enter month of birth : ";	cin>>s2[i].month;
+                }
+                
+                }
+                
+                
+                void output()
+                {int i;
+                
+                cout<<"\nDetails of SE 2 Class ";
+                
+              for(i=0;i<size;i++)
+                {
+                cout<<"\nDetails of Student  "<<i<<" :"; 
+                
+                cout<<"\n PRN :"; 			cout<<s1[i].prn;
+                cout<<"\n DATE of birth : ";  		cout<<s1[i].date;
+                cout<<"\n month of birth : ";		cout<<s1[i].month;
+                }
+                
+                 }
+                 
+                 
+                 void output2()
+                {int i;
+                
+                  cout<<"\nDetails of SE 2 Class ";
+                
+              for(i=0;i<size2;i++)
+                {
+                cout<<"\nDetails of Student "<<i<<" :"; 
+                
+                cout<<"\n PRN :"; 			cout<<s2[i].prn;
+                cout<<"\n DATE of birth : ";  		cout<<s2[i].date;
+                cout<<"\n month of birth : ";		cout<<s2[i].month;
+                }
+                
+                 }
+                 
+                 void sort()
+                 {int i=0,j=0,small=0,pos=0;
+                    SE temp;
+                 
+                 
+                	 for(i=0;i<size-1;++i)
+            		{
+            			small=s1[i].month;
+            			pos=i;
+            			for(j=i;j<size;++j)
+            			{
+            			   if(s1[j].month<small)
+            			   {
+            			   small=s1[j].month;
+            			   pos=j;
+            			   
+            			   }
+            			}
+            			
+            			temp=s1[pos];
+            			s1[pos]=s1[i];
+            			s1[i]=temp;
+            			
+            			
+            			
+            			
+            		
+            		}     
+           
+      //           for(i=0;i<size;++i)
+   //              {
+   //              cout<<" month"<<s1[i].month<<" date "<<s1[i].date;
+   //              }
+                 
+                 //sort by date now
+                 
+                 int m;
+                  for(i=0;i<size-1;++i)
+            		{
+            			m=s1[i].month;
+            			small=s1[i].date;
+            			pos=i;
+            			for(j=i;j<size;++j)
+            			{
+            				if(s1[j].month==m)
+            				{
+            			   if(s1[j].date<small)
+            			   {
+            			   small=s1[j].month;
+            			   pos=j;
+            			   
+            			   }
+            			   }
+            			}
+            			
+            			temp=s1[pos];
+            			s1[pos]=s1[i];
+            			s1[i]=temp;
+            			
+            			
+            			
+            			
+            		
+            		}    
+            		
+            		for(i=0;i<size;++i)
+                 {
+                 cout<<endl;
+                 cout<<" month"<<s1[i].month<<" date "<<s1[i].date<<" PRN "<<s1[i].prn;
+                 }
+                 
+                 }
+                 
+                 void sort2()
+                 {int i=0,j=0,small=0,pos=0;
+                    SE temp;
+                 
+                 
+                	 for(i=0;i<size2-1;++i)
+            		{
+            			small=s2[i].month;
+            			pos=i;
+            			for(j=i;j<size2;++j)
+            			{
+            			   if(s2[j].month<small)
+            			   {
+            			   small=s2[j].month;
+            			   pos=j;
+            			   
+            			   }
+            			}
+            			
+            			temp=s2[pos];
+            			s2[pos]=s2[i];
+            			s2[i]=temp;
+            			
+            			
+            			
+            			
+            		
+            		}     
+           
+      //           for(i=0;i<size;++i)
+   //              {
+   //              cout<<" month"<<s1[i].month<<" date "<<s1[i].date;
+   //              }
+                 
+                 //sort by date now
+                 
+                 int m;
+                  for(i=0;i<size2-1;++i)
+            		{
+            			m=s2[i].month;
+            			small=s2[i].date;
+            			pos=i;
+            			for(j=i;j<size2;++j)
+            			{
+            				if(s2[j].month==m)
+            				{
+            			   if(s2[j].date<small)
+            			   {
+            			   small=s2[j].month;
+            			   pos=j;
+            			   
+            			   }
+            			   }
+            			}
+            			
+            			temp=s2[pos];
+            			s2[pos]=s2[i];
+            			s2[i]=temp;
+            			
+            			
+            			
+            			
+            		
+            		}    
+            		
+            		for(i=0;i<size2;++i)
+                 {
+                 cout<<endl;
+                 cout<<" month"<<s2[i].month<<" date "<<s2[i].date<<" PRN "<<s2[i].prn;
+                 }
+                 
+                 }
+                 
+                 
+                 
+                
+                
+              		};
+
+
+
+
+int main()
+{
+stud a;
+
+a.input();
+
+//a.output();
+
+a.input2();
+
+//a.output2();
+
+a.sort2();
+a.sort();
+
+
+
+return 0;
+
+}

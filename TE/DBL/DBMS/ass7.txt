@@ -1,0 +1,94 @@
+												**** Cursors ****
+
+
+create table result(roll number(5),name varchar2(20),class varchar2(20));
+create table stud(name varchar2(20),tot_marks number(5),roll number(5));
+
+
+create or replace procedure proc_grade(p_roll IN number)
+is
+
+p_name varchar2(20);
+marks number(5);
+grade varchar2(20);
+
+begin
+ select name into p_name from stud where rollno=p_roll;
+ select tot_marks into marks from stud where rollno=p_roll;
+
+  if marks<=1500 and marks>=990 then
+   grade:='destinction';
+   insert into result(roll,name,class) values(p_roll,p_name,grade);
+  elsif marks<=989 and marks>=900 then
+   grade:='first_class';
+   insert into result(roll,name,class) values(p_roll,p_name,grade);
+  elsif marks<=899 and marks>=800 then
+   grade:='second_class';
+   insert into result(roll,name,class) values(p_roll,p_name,grade);
+  else
+   grade:='Fail';
+   insert into result(roll,name,class) values(p_roll,p_name,grade);
+  end if;
+end;
+/
+
+
+
+****output:*****
+
+SQL> exec proc_grade(9);
+
+PL/SQL procedure successfully completed.
+
+      ROLL NAME 		CLASS
+---------- -------------------- --------------------
+		 9 James		Fail
+
+SQL> exec proc_grade(7);
+
+PL/SQL procedure successfully completed.
+
+
+      ROLL NAME 		CLASS
+---------- -------------------- --------------------
+		 7 Smith		Second_class
+
+SQL> exec proc_grade(4);
+
+PL/SQL procedure successfully completed.
+
+SQL> exec proc_grade(5);
+
+PL/SQL procedure successfully completed.
+
+SQL> exec proc_grade(6);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from result;
+
+      ROLL NAME 		CLASS
+---------- -------------------- --------------------
+	 9 James		Fail
+	 7 Smith		second_class
+	 4 Clark		destinction
+	 5 King 		first_class
+	 6 Martin		destinction
+
+SQL> exec proc_grade(1);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from result;
+
+      ROLL NAME 		CLASS
+---------- -------------------- --------------------
+	 9 James		Fail
+	 7 Smith		second_class
+	 4 Clark		destinction
+	 5 King 		first_class
+	 6 Martin		destinction
+	 1 Allen		second_class
+
+6 rows selected.
+
